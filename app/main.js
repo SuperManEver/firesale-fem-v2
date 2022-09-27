@@ -40,17 +40,17 @@ async function getFileFromUser() {
 
   const content = fs.readFileSync(filePaths[0]).toString();
 
-  console.log(content);
+  return content;
 }
 
 ipcMain.on("get-file", async (event, arg) => {
   const content = await getFileFromUser();
 
-  event.reply("get-file", content);
+  console.log("event hander: ", content);
 });
 
 app.whenReady().then(() => {
-  ipcMain.handle("dialog:openFile", getFileFromUser);
+  ipcMain.on("dialog:openFile", getFileFromUser);
 
   createWindow();
 });
