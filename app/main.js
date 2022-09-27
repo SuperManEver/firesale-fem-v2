@@ -16,22 +16,19 @@ const createWindow = () => {
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();
   });
-
-  // getFileFromUser();
 };
 
-async function getFileFromUser() {
-  const loadFilesPromise = dialog.showOpenDialog({
-    properties: ["openFile"],
-    buttonLabel: "Unveil",
-    title: "Open Fire Sale Document",
-    // filters: [
-    //   { name: "Markdown Files", extensions: ["md", "mdown", "markdown"] },
-    //   { name: "Text Files", extensions: ["txt", "text", "md", "json"] },
-    // ],
-  });
+async function handleFileOpen() {
+  const { canceled, filePaths } = await dialog.showOpenDialog();
+  if (canceled) {
+    return;
+  } else {
+    return filePaths[0];
+  }
+}
 
-  const file = await loadFilesPromise;
+async function getFileFromUser() {
+  const file = await handleFileOpen();
 
   if (!file) {
     return;
@@ -47,9 +44,15 @@ async function getFileFromUser() {
 }
 
 ipcMain.on("get-file", async (event, arg) => {
-  console.log(arg);
+  const content = await getFileFromUser();
+
+  event.reply("get-file", content);
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  ipcMain.handle("dialog:openFile", getFileFromUser);
+
+  createWindow();
+});
 
 console.log("Starting up...");

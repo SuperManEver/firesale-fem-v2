@@ -9,7 +9,12 @@ const showFileButton = document.querySelector("#show-file");
 const openInDefaultButton = document.querySelector("#open-in-default");
 
 newFileButton.addEventListener("click", (evt) => {
-  window.electron.ipcRenderer.sendMessage("get-file", ["ping"]);
+  // looks like legacy code
+  // window.electron.ipcRenderer.sendMessage("get-file", (arg) => {
+  //   console.log("FROM RENDERER: ", arg);
+  // });
+
+  window.electron.openFile();
 });
 
 markdownView.addEventListener("keyup", (event) => {

@@ -1,6 +1,8 @@
 const { contextBridge, ipcRenderer, IpcRendererEvent } = require("electron");
 
 contextBridge.exposeInMainWorld("electron", {
+  openFile: () => ipcRenderer.invoke("dialog:openFile"),
+
   ipcRenderer: {
     sendMessage(channel, args) {
       ipcRenderer.send(channel, args);
