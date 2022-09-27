@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const _ = require("lodash");
@@ -17,12 +17,18 @@ const createWindow = () => {
     mainWindow.show();
   });
 
-  getFileFromUser();
+  // getFileFromUser();
 };
 
 async function getFileFromUser() {
   const loadFilesPromise = dialog.showOpenDialog({
     properties: ["openFile"],
+    buttonLabel: "Unveil",
+    title: "Open Fire Sale Document",
+    // filters: [
+    //   { name: "Markdown Files", extensions: ["md", "mdown", "markdown"] },
+    //   { name: "Text Files", extensions: ["txt", "text", "md", "json"] },
+    // ],
   });
 
   const file = await loadFilesPromise;
@@ -39,6 +45,10 @@ async function getFileFromUser() {
 
   console.log(content);
 }
+
+ipcMain.on("get-file", async (event, arg) => {
+  console.log(arg);
+});
 
 app.whenReady().then(createWindow);
 
