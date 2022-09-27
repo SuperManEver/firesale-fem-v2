@@ -21,26 +21,20 @@ const createWindow = () => {
 async function handleFileOpen() {
   const { canceled, filePaths } = await dialog.showOpenDialog();
   if (canceled) {
-    return;
+    return void 0;
   } else {
     return filePaths[0];
   }
 }
 
 async function getFileFromUser() {
-  const file = await handleFileOpen();
+  const filePath = await handleFileOpen();
 
-  if (!file) {
+  if (!filePath) {
     return;
   }
 
-  const { canceled, filePaths } = file;
-
-  if (canceled || _.isEmpty(filePaths)) return;
-
-  const content = fs.readFileSync(filePaths[0]).toString();
-
-  return content;
+  return fs.readFileSync(filePath).toString();
 }
 
 ipcMain.on("get-file", async (event, arg) => {
