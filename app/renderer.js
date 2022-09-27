@@ -8,10 +8,14 @@ const saveHtmlButton = document.querySelector("#save-html");
 const showFileButton = document.querySelector("#show-file");
 const openInDefaultButton = document.querySelector("#open-in-default");
 
-newFileButton.addEventListener("click", (evt) => {
+newFileButton.addEventListener("click", async (evt) => {
   window.electron.ipcRenderer.sendMessage("get-file");
 });
 
 markdownView.addEventListener("keyup", (event) => {
   const currentContent = event.target.value;
+});
+
+window.electron.ipcRenderer.on("file:loaded", (data) => {
+  htmlView.innerHTML = data;
 });

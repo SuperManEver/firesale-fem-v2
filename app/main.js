@@ -40,7 +40,7 @@ async function getFileFromUser() {
 ipcMain.on("get-file", async (event, arg) => {
   const content = await getFileFromUser();
 
-  console.log("event hander: ", content);
+  event.reply("file:loaded", content);
 });
 
 app.whenReady().then(() => {
