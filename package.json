@@ -4,19 +4,12 @@
   "description": "A Frontend Masters Example Application",
   "main": "app/main.js",
   "dependencies": {
-    "electron": "^3.0.10",
+    "electron": "^20.2.0",
+    "lodash": "^4.17.21",
     "marked": "^0.5.2"
-  },
-  "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "devtron": "^1.4.0",
-    "electron-packager": "^8.3.0",
-    "eslint": "^3.11.0",
-    "eslint-plugin-import": "^2.2.0"
   },
   "scripts": {
     "start": "electron .",
-    "postinstall": "electron-rebuild",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
